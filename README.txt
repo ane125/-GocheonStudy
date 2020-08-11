@@ -1,1 +1,2 @@
-°íÃµÂðµûµé ½ºÅÍµð ¸ðÀÓ °øºÎµé Çô¶ó
+ê³ ì²œì°ë”°ë“¤ ìŠ¤í„°ë”” ëª¨ìž„ ê³µë¶€ë“¤ í˜€ë¼
+Fuck Funck and Fuck
