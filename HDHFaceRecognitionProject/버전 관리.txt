@@ -1,0 +1,8 @@
+HDHFaceRecognitionProject 환경 설정
+
+1. anaconda3 설치
+2. 가상환경 설치 필요 한 것 들
+   - python3.7
+   - opencv
+   - tensorflow
+   - spyder
