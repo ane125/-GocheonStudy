@@ -1,0 +1,6 @@
+가상 환경
+ python 3.7
+ spyder
+ opencv
+ tensorflow
+ numpy 
