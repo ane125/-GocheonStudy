@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1397</width>
+    <width>1500</width>
     <height>1000</height>
    </rect>
   </property>
@@ -285,20 +285,20 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>1191</width>
-      <height>931</height>
+      <width>941</width>
+      <height>771</height>
      </rect>
     </property>
     <property name="title">
      <string>Log</string>
     </property>
-    <widget class="QPlainTextEdit" name="LOGVIEWER">
+    <widget class="QListView" name="LISTVIEW_NETWORKTLOG">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>1171</width>
-       <height>901</height>
+       <width>921</width>
+       <height>741</height>
       </rect>
      </property>
     </widget>
@@ -319,7 +319,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1397</width>
+     <width>1500</width>
      <height>21</height>
     </rect>
    </property>

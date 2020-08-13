@@ -29,8 +29,8 @@ class WindowClass(QMainWindow, form_class) :
         #self.COMBOBOX_IMAGESIZE.currentIndexChanged.connect(self.ImageSizeChangedFuncion)
         
         #Tool Button
-        #self.FILE_LOADIMAGE.triggered.connect(self.LoadImageFunction)
-        #self.FILE_SAVEIMAGE.triggered.connect(self.SaveImageFunction)
+        self.NETWORK_SERVEROPEN.triggered.connect(self.ServerOpen)
+        self.NETWORK_SERVERCLOSE.triggered.connect(self.ServerClose)
         #self.LEARN_IMAGE.triggered.connect(self.LearnImageFunction)
         #self.LEARN_MAKECSV.triggered.connect(self.Makecsvfile)
         #self.LEARN_GetFaceImages.triggered.connect(self.ExtractFaceImage)
@@ -38,7 +38,23 @@ class WindowClass(QMainWindow, form_class) :
         #self.CAM_STOP.triggered.connect(self.CamStop)
 
                   
-    
+    def ServerOpen(self):
+        text, ok = QInputDialog.getText(self, 'Server setting', 'Input port:')
+
+        if ok:
+            self.LOGVIEWER.appendPlainText('Server open!')
+            self.LOGVIEWER.appendPlainText('port : '+str(text))
+            
+    def ServerClose(self):
+        reply = QMessageBox.question(self, 'Server close', 'Are you sure to close?',
+                                    QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            self.LOGVIEWER.appendPlainText('Server close')
+        else:
+            self.LOGVIEWER.appendPlainText('Server continue')
+            
+            
   
 if __name__ == "__main__" :
     #QApplication : 프로그램을 실행시켜주는 클래스
