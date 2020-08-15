@@ -1,7 +1,6 @@
 import sys
 import os
 import csv
-import ServerClass
 import threading 
 from socket import *
 
@@ -15,15 +14,18 @@ form_class = uic.loadUiType("Client.ui")[0]
 t =[]
 
 class Server(threading.Thread):
-    def __init__(self,socket):
+    def __init__(self,socket, windowClass):
         super().__init__()
         self.s_socket = socket
+        self.windowClass = windowClass
     
-        
+  
+
     def run(self):
         self.c_socket, addr = self.s_socket.accept()
-        print(addr[0],addr[1],"이 연결되었습니다")
-        create_thread(self.s_socket)
+        self.windowClass.AddLogData(str(addr[0])+str(addr[1])+"이 연결되었습니다")
+
+        create_thread(self.s_socket, self.windowClass)
         ThreadStaff=threading.Thread(target=self.c_recv)
         ThreadStaff.deamon=True
         ThreadStaff.start()
@@ -31,16 +33,16 @@ class Server(threading.Thread):
     def c_recv(self):
         while True:
             get_data=self.c_socket.recv(1024)
-            print(get_data.decode('utf-8'))
+            self.windowClass.AddLogData(get_data.decode('utf-8'))
             
     def c_send(self, put_data):
         self.c_socket.send(put_data.encode('utf-8'))
           
 
-def create_thread(s_socket):
+def create_thread(s_socket, windowClass):
     print('Call Create Thread')
     index = len(t)
-    t.append(Server(s_socket))
+    t.append(Server(s_socket, windowClass))
     t[index].deamon=True
     t[index].start()     
     
@@ -75,6 +77,9 @@ class WindowClass(QMainWindow, form_class) :
        
     serverSocket = 0
     
+    def AddLogData(self, msg):
+        self.LOGVIEWER.appendPlainText(msg)
+        
     def ServerOpen(self):
         text, ok = QInputDialog.getText(self, 'Server setting', 'Input port:')
 
@@ -87,7 +92,7 @@ class WindowClass(QMainWindow, form_class) :
             self.serverSocket.bind((host,port))
             self.serverSocket.listen(1)
 
-            create_thread(self.serverSocket)
+            create_thread(self.serverSocket,self)
 
             self.LOGVIEWER.appendPlainText('Server open!')
             self.LOGVIEWER.appendPlainText('port : '+str(text))
@@ -103,6 +108,8 @@ class WindowClass(QMainWindow, form_class) :
                     j.c_socket.close()
                 except:
                     pass
+                
+            self.serverSocket.close()
         else:
             self.LOGVIEWER.appendPlainText('Server continue')
             
