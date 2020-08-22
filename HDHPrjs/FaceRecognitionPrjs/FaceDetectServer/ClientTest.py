@@ -17,6 +17,7 @@ print('접속 완료')
 
 while True:
     sendData = input()
-    print('send Data')
+    print('Send Data')
     clientSock.send(sendData.encode('utf-8'))
-    
+    data = clientSock.recv(1024)
+    print('Received Data', repr(data))

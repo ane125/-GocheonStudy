@@ -11,7 +11,7 @@ from PyQt5 import uic
 #UI파일 연결
 #단, UI파일은 Python 코드 파일과 같은 디렉토리에 위치해야한다.
 form_class = uic.loadUiType("Client.ui")[0]
-t =[]
+t=[]
 
 class Server(threading.Thread):
     def __init__(self,socket, windowClass):
@@ -20,7 +20,6 @@ class Server(threading.Thread):
         self.windowClass = windowClass
     
   
-
     def run(self):
         self.c_socket, addr = self.s_socket.accept()
         self.windowClass.AddLogData(str(addr[0])+str(addr[1])+"이 연결되었습니다")
@@ -46,10 +45,11 @@ def create_thread(s_socket, windowClass):
     t[index].deamon=True
     t[index].start()     
     
-    
+   
 #화면을 띄우는데 사용되는 Class 선언
 class WindowClass(QMainWindow, form_class) :
 
+    serverSocket =  socket(AF_INET, SOCK_STREAM)
    
     def __init__(self) :
         super().__init__()
@@ -65,6 +65,9 @@ class WindowClass(QMainWindow, form_class) :
         #ComboBox
         #self.COMBOBOX_IMAGESIZE.currentIndexChanged.connect(self.ImageSizeChangedFuncion)
         
+        #Client Control Box
+        self.BUTTON_SEND.clicked.connect(self.OnSendCommand)
+        
         #Tool Button
         self.NETWORK_SERVEROPEN.triggered.connect(self.ServerOpen)
         self.NETWORK_SERVERCLOSE.triggered.connect(self.ServerClose)
@@ -75,27 +78,35 @@ class WindowClass(QMainWindow, form_class) :
         #self.CAM_STOP.triggered.connect(self.CamStop)
 
        
-    serverSocket = 0
-    
+    def OnSendCommand(self):
+        message = str(self.LINEEDIT_SENDMESSAGE.text())
+        self.AddLogData('send message : ' + str(message))
+        
+        for clientSocket in t:
+            try:     
+                clientSocket.c_send(message)
+            except:
+                pass   
+  
+        
     def AddLogData(self, msg):
         self.LOGVIEWER.appendPlainText(msg)
         
     def ServerOpen(self):
-        text, ok = QInputDialog.getText(self, 'Server setting', 'Input port:')
+        inputPort, ok = QInputDialog.getText(self, 'Server setting', 'Input port:')
 
         if ok:
-            
-            self.serverSocket = socket(AF_INET, SOCK_STREAM)
+        
             ufsize=1024
             host='192.168.0.109'
-            port=5001
+            port=int(inputPort)
             self.serverSocket.bind((host,port))
             self.serverSocket.listen(1)
 
             create_thread(self.serverSocket,self)
 
             self.LOGVIEWER.appendPlainText('Server open!')
-            self.LOGVIEWER.appendPlainText('port : '+str(text))
+            self.LOGVIEWER.appendPlainText('ip : ' + str(host) + ' port : '+ str(port))
             
     def ServerClose(self):
         reply = QMessageBox.question(self, 'Server close', 'Are you sure to close?',
