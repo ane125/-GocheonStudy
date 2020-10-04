@@ -1,0 +1,4 @@
+﻿  HelloWorldTest.cpp
+C:\-GocheonStudy\LNJAndroidProject\Cprograming_Cyber\HelloWorldTest\HelloWorldTest\HelloWorldTest.cpp(9,15): warning C4305: '초기화 중': 'int'에서 'char'(으)로 잘립니다.
+C:\-GocheonStudy\LNJAndroidProject\Cprograming_Cyber\HelloWorldTest\HelloWorldTest\HelloWorldTest.cpp(9,11): warning C4309: '초기화 중': 상수 값이 잘립니다.
+  HelloWorldTest.vcxproj -> C:\-GocheonStudy\LNJAndroidProject\Cprograming_Cyber\HelloWorldTest\Debug\HelloWorldTest.exe
